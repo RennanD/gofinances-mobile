@@ -32,9 +32,24 @@ export function Dashboard(): JSX.Element {
       </Header>
 
       <HighlightCards>
-        <HighlightCard />
-        <HighlightCard />
-        <HighlightCard />
+        <HighlightCard
+          type="income"
+          title="Entradas"
+          amount="R$ 17.400,00"
+          lastTransaction="Última entrada dia 13 de abril"
+        />
+        <HighlightCard
+          type="outcome"
+          title="Saídas"
+          amount="R$ 1.259,00"
+          lastTransaction="Última entrada dia 13 de abril"
+        />
+        <HighlightCard
+          type="total"
+          title="Entradas"
+          amount="R$ 17.400,00"
+          lastTransaction="Última entrada dia 13 de abril"
+        />
       </HighlightCards>
     </Container>
   );

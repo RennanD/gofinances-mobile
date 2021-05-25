@@ -4,7 +4,6 @@ import { Feather } from '@expo/vector-icons';
 
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
-import { Platform } from 'react-native';
 
 export const Container = styled.View`
   background-color: ${({ theme }) => theme.colors.background};
