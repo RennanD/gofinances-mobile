@@ -1,4 +1,5 @@
 import React from 'react';
+import { HighlightCard } from '../../components/HighlightCard';
 
 import {
   Container,
@@ -10,6 +11,7 @@ import {
   UserGretting,
   UserName,
   LogoutIcon,
+  HighlightCards,
 } from './styles';
 
 export function Dashboard(): JSX.Element {
@@ -28,6 +30,12 @@ export function Dashboard(): JSX.Element {
           <LogoutIcon name="power" />
         </UserWrapper>
       </Header>
+
+      <HighlightCards>
+        <HighlightCard />
+        <HighlightCard />
+        <HighlightCard />
+      </HighlightCards>
     </Container>
   );
 }
