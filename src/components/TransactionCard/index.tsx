@@ -11,19 +11,33 @@ import {
   Date,
 } from './styles';
 
-export function TransactionCard(): JSX.Element {
+interface CategoryProps {
+  name: string;
+  icon: string;
+}
+
+interface TransactionCardProps {
+  data: {
+    title: string;
+    amount: string;
+    category: CategoryProps;
+    date: string;
+  };
+}
+
+export function TransactionCard({ data }: TransactionCardProps): JSX.Element {
   return (
     <Container>
-      <Title>Desenvolvimento de site</Title>
+      <Title>{data.title}</Title>
 
-      <Amount>R$ 12.000,00</Amount>
+      <Amount>{data.amount}</Amount>
 
       <Footer>
         <Category>
-          <Icon name="dollar-sign" />
-          <CategoryName>Vendas</CategoryName>
+          <Icon name={data.category.icon} />
+          <CategoryName>{data.category.name}</CategoryName>
         </Category>
-        <Date>12/03/2021</Date>
+        <Date>{data.date}</Date>
       </Footer>
     </Container>
   );
