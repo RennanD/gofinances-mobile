@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from '../../components/Form/Button';
 import { InputText } from '../../components/Form/InputText';
+import { SelectInput } from '../../components/Form/SelectInput';
 import { TransactionTypeButton } from '../../components/Form/TransactionTypeButton';
 
 import {
@@ -28,6 +29,7 @@ export function Register(): JSX.Element {
         <Fields>
           <InputText placeholder="Nome" />
           <InputText placeholder="Preço" />
+
           <TransactionType>
             <TransactionTypeButton
               onPress={() => handleSeletcTransactionType('income')}
@@ -42,6 +44,8 @@ export function Register(): JSX.Element {
               title="Saída"
             />
           </TransactionType>
+
+          <SelectInput title="Categoria" />
         </Fields>
 
         <Button>Cadastrar</Button>
