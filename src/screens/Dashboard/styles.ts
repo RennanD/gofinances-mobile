@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import { FlatList } from 'react-native';
 
 import { Feather } from '@expo/vector-icons';
 
@@ -7,6 +8,8 @@ import {
   getBottomSpace,
   getStatusBarHeight,
 } from 'react-native-iphone-x-helper';
+
+import { DataLitsProps } from '.';
 
 export const Container = styled.View`
   background-color: ${({ theme }) => theme.colors.background};
@@ -91,7 +94,9 @@ export const Title = styled.Text`
   margin-bottom: 16px;
 `;
 
-export const TransactionsList = styled.FlatList.attrs({
+export const TransactionsList = styled(
+  FlatList as new () => FlatList<DataLitsProps>,
+).attrs({
   contentContainerStyle: {
     paddingBottom: getBottomSpace() + 16,
   },

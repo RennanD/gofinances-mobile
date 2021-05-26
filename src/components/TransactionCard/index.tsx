@@ -16,13 +16,16 @@ interface CategoryProps {
   icon: string;
 }
 
+export interface TransactionCardData {
+  type: 'income' | 'outcome';
+  title: string;
+  amount: string;
+  category: CategoryProps;
+  date: string;
+}
+
 interface TransactionCardProps {
-  data: {
-    title: string;
-    amount: string;
-    category: CategoryProps;
-    date: string;
-  };
+  data: TransactionCardData;
 }
 
 export function TransactionCard({ data }: TransactionCardProps): JSX.Element {
@@ -30,7 +33,10 @@ export function TransactionCard({ data }: TransactionCardProps): JSX.Element {
     <Container>
       <Title>{data.title}</Title>
 
-      <Amount>{data.amount}</Amount>
+      <Amount type={data.type}>
+        {data.type === 'outcome' && '- '}
+        {data.amount}
+      </Amount>
 
       <Footer>
         <Category>

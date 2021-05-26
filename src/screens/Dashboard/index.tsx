@@ -1,6 +1,9 @@
 import React from 'react';
 import { HighlightCard } from '../../components/HighlightCard';
-import { TransactionCard } from '../../components/TransactionCard';
+import {
+  TransactionCard,
+  TransactionCardData,
+} from '../../components/TransactionCard';
 
 import {
   Container,
@@ -18,9 +21,15 @@ import {
   TransactionsList,
 } from './styles';
 
+export interface DataLitsProps extends TransactionCardData {
+  id: string;
+}
+
 export function Dashboard(): JSX.Element {
-  const data = [
+  const data: DataLitsProps[] = [
     {
+      id: '1',
+      type: 'income',
       title: 'Desenvolvimento de APP',
       amount: 'R$ 12.000,00',
       category: {
@@ -30,22 +39,26 @@ export function Dashboard(): JSX.Element {
       date: '12/03/2021',
     },
     {
+      id: '2',
+      type: 'outcome',
       title: 'Prestação do apê',
       amount: 'R$ 600,00',
       category: {
         name: 'Casa',
         icon: 'home',
       },
-      date: '12/03/2021',
+      date: '15/03/2021',
     },
     {
+      id: '3',
+      type: 'income',
       title: 'Salário',
       amount: 'R$ 15.000,00',
       category: {
         name: 'Salário',
         icon: 'dollar-sign',
       },
-      date: '12/03/2021',
+      date: '20/07/2021',
     },
   ];
 
@@ -91,7 +104,7 @@ export function Dashboard(): JSX.Element {
 
         <TransactionsList
           data={data}
-          keyExtractor={item => item.title}
+          keyExtractor={item => item.id}
           renderItem={({ item: transaction }) => (
             <TransactionCard data={transaction} />
           )}
