@@ -1,5 +1,6 @@
 import React from 'react';
 import { HighlightCard } from '../../components/HighlightCard';
+import { TransactionCard } from '../../components/TransactionCard';
 
 import {
   Container,
@@ -12,6 +13,8 @@ import {
   UserName,
   LogoutIcon,
   HighlightCards,
+  Transactions,
+  Title,
 } from './styles';
 
 export function Dashboard(): JSX.Element {
@@ -51,6 +54,12 @@ export function Dashboard(): JSX.Element {
           lastTransaction="Última entrada dia 13 de abril"
         />
       </HighlightCards>
+
+      <Transactions>
+        <Title>Listagem</Title>
+
+        <TransactionCard />
+      </Transactions>
     </Container>
   );
 }
