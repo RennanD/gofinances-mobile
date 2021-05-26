@@ -1,7 +1,8 @@
 import React from 'react';
+import { Button } from '../../components/Form/Button';
 import { InputText } from '../../components/Form/InputText';
 
-import { Container, Header, Title, Form } from './styles';
+import { Container, Header, Title, Form, Fields } from './styles';
 
 export function Register(): JSX.Element {
   return (
@@ -10,8 +11,12 @@ export function Register(): JSX.Element {
         <Title>Cadastro</Title>
       </Header>
       <Form>
-        <InputText placeholder="Nome" />
-        <InputText placeholder="Preço" />
+        <Fields>
+          <InputText placeholder="Nome" />
+          <InputText placeholder="Preço" />
+        </Fields>
+
+        <Button>Cadastrar</Button>
       </Form>
     </Container>
   );
