@@ -10,9 +10,10 @@ import {
 
 import { ThemeProvider } from 'styled-components';
 
-import { Dashboard } from './src/screens/Dashboard';
+// import { Dashboard } from './src/screens/Dashboard';
 
 import theme from './src/global/styles/theme';
+import { Register } from './src/screens/Register';
 
 export default function App(): JSX.Element {
   const [fontsLoaded] = useFonts({
@@ -27,7 +28,7 @@ export default function App(): JSX.Element {
 
   return (
     <ThemeProvider theme={theme}>
-      <Dashboard />
+      <Register />
     </ThemeProvider>
   );
 }
