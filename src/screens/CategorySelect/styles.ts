@@ -5,6 +5,10 @@ import { RFValue } from 'react-native-responsive-fontsize';
 
 import { Feather } from '@expo/vector-icons';
 
+interface CategoryItemProps {
+  isSelected: boolean;
+}
+
 export const Container = styled.View`
   flex: 1;
   background-color: ${({ theme }) => theme.colors.background};
@@ -28,12 +32,15 @@ export const Title = styled.Text`
   color: ${({ theme }) => theme.colors.shape};
 `;
 
-export const CategoryItem = styled(TouchableOpacity)`
+export const CategoryItem = styled(TouchableOpacity)<CategoryItemProps>`
   width: 100%;
   padding: ${RFValue(15)}px;
 
   flex-direction: row;
   align-items: center;
+
+  background-color: ${({ isSelected, theme }) =>
+    isSelected ? theme.colors.secondary_light : theme.colors.background};
 `;
 
 export const Icon = styled(Feather)`
@@ -56,4 +63,9 @@ export const Hr = styled.View`
   width: 100%;
 
   background: ${({ theme }) => theme.colors.text};
+`;
+
+export const Footer = styled.View`
+  width: 100%;
+  padding: 24px;
 `;

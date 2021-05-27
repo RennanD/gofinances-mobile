@@ -4,9 +4,11 @@ import { TouchableOpacity } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { RFValue } from 'react-native-responsive-fontsize';
 
-export const Container = styled(TouchableOpacity).attrs({
-  activeOpacity: 0.7,
-})`
+interface SelectInputProps {
+  hasPlaceholder: boolean;
+}
+
+export const Container = styled(TouchableOpacity)`
   background-color: ${({ theme }) => theme.colors.shape};
 
   flex-direction: row;
@@ -18,11 +20,12 @@ export const Container = styled(TouchableOpacity).attrs({
   padding: 18px 16px;
 `;
 
-export const CategoryName = styled.Text`
+export const CategoryName = styled.Text<SelectInputProps>`
   font-family: ${({ theme }) => theme.fonts.regular};
   font-size: ${RFValue(14)}px;
 
-  color: ${({ theme }) => theme.colors.text};
+  color: ${({ hasPlaceholder, theme }) =>
+    hasPlaceholder ? theme.colors.text : theme.colors.title};
 `;
 
 export const Icon = styled(Feather)`
