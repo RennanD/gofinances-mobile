@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 
 import { Modal } from 'react-native';
 
+import { useForm } from 'react-hook-form';
+
 import { Button } from '../../components/Form/Button';
 import { InputText } from '../../components/Form/InputText';
 import { SelectInput } from '../../components/Form/SelectInput';
@@ -25,6 +27,8 @@ export function Register(): JSX.Element {
     name: 'Selecione a categoria',
   });
 
+  const { control, handleSubmit } = useForm();
+
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   function handleSeletcTransactionType(type: 'income' | 'outcome') {
@@ -39,6 +43,10 @@ export function Register(): JSX.Element {
     setIsModalVisible(true);
   }
 
+  function handleSubmitForm(form) {
+    console.log(form);
+  }
+
   return (
     <Container>
       <Header>
@@ -46,8 +54,8 @@ export function Register(): JSX.Element {
       </Header>
       <Form>
         <Fields>
-          <InputText placeholder="Nome" />
-          <InputText placeholder="Preço" />
+          <InputText name="name" control={control} placeholder="Nome" />
+          <InputText name="amount" control={control} placeholder="Preço" />
 
           <TransactionType>
             <TransactionTypeButton
@@ -71,7 +79,7 @@ export function Register(): JSX.Element {
           />
         </Fields>
 
-        <Button>Cadastrar</Button>
+        <Button onPress={handleSubmit(handleSubmitForm)}>Cadastrar</Button>
       </Form>
 
       <Modal visible={isModalVisible}>
