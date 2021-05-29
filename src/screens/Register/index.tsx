@@ -72,17 +72,7 @@ export function Register(): JSX.Element {
 
     if (category.key === 'any') {
       Alert.alert('Erro', 'Selecione a categoria');
-      return;
     }
-
-    console.log({
-      data: {
-        name: form.name,
-        amount: form.amount,
-        type: selectedTransactionType,
-        category: category.key,
-      },
-    });
   }
 
   return (
