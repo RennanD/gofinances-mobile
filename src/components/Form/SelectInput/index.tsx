@@ -1,9 +1,10 @@
 import React from 'react';
-import { TouchableOpacityProps } from 'react-native';
+
+import { RectButtonProps } from 'react-native-gesture-handler';
 
 import { Container, CategoryName, Icon } from './styles';
 
-interface SelectInputProps extends TouchableOpacityProps {
+interface SelectInputProps extends RectButtonProps {
   title: string;
   hasPlaceholder: boolean;
 }
@@ -14,7 +15,7 @@ export function SelectInput({
   ...rest
 }: SelectInputProps): JSX.Element {
   return (
-    <Container activeOpacity={0.7} {...rest}>
+    <Container {...rest}>
       <CategoryName hasPlaceholder={hasPlaceholder}>{title}</CategoryName>
 
       <Icon name="chevron-down" />
