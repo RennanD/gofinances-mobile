@@ -9,6 +9,7 @@ import {
   getStatusBarHeight,
 } from 'react-native-iphone-x-helper';
 
+import { BorderlessButton } from 'react-native-gesture-handler';
 import { DataLitsProps } from '.';
 
 export const Container = styled.View`
@@ -62,6 +63,8 @@ export const UserName = styled.Text`
   font-family: ${({ theme }) => theme.fonts.bold};
   line-height: ${RFValue(22)}px;
 `;
+
+export const LogoutButton = styled(BorderlessButton)``;
 
 export const LogoutIcon = styled(Feather)`
   font-size: ${RFValue(24)}px;

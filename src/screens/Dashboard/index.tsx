@@ -14,6 +14,7 @@ import {
   User,
   UserGretting,
   UserName,
+  LogoutButton,
   LogoutIcon,
   HighlightCards,
   Transactions,
@@ -74,7 +75,9 @@ export function Dashboard(): JSX.Element {
               <UserName>Rennan</UserName>
             </User>
           </UserInfo>
-          <LogoutIcon name="power" />
+          <LogoutButton onPress={() => {}}>
+            <LogoutIcon name="power" />
+          </LogoutButton>
         </UserWrapper>
       </Header>
 
