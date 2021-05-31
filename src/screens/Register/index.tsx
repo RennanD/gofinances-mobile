@@ -112,7 +112,6 @@ export function Register(): JSX.Element {
 
       navigation.navigate('Dashboard');
     } catch (error) {
-      console.log(error);
       Alert.alert('Erro', 'Não foi possível cadastrar a transação');
     }
   }

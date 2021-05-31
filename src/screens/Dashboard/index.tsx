@@ -1,4 +1,8 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect } from '@react-navigation/native';
+
 import { HighlightCard } from '../../components/HighlightCard';
 import {
   TransactionCard,
@@ -26,42 +30,49 @@ export interface DataLitsProps extends TransactionCardData {
   id: string;
 }
 
+const dataKey = '@gofinances:transactions';
+
 export function Dashboard(): JSX.Element {
-  const data: DataLitsProps[] = [
-    {
-      id: '1',
-      type: 'income',
-      title: 'Desenvolvimento de APP',
-      amount: 'R$ 12.000,00',
-      category: {
-        name: 'Vendas',
-        icon: 'dollar-sign',
+  const [transactions, setTransactions] = useState<DataLitsProps[]>([]);
+
+  async function loadTransactions() {
+    const response = await AsyncStorage.getItem(dataKey);
+
+    const storegedTransactions = response ? JSON.parse(response) : [];
+
+    const formatedTransactions: DataLitsProps[] = storegedTransactions.map(
+      (item: DataLitsProps) => {
+        const amount = Number(item.amount).toLocaleString('pt-Br', {
+          style: 'currency',
+          currency: 'BRL',
+        });
+
+        const date = Intl.DateTimeFormat('pt-Br', {
+          day: '2-digit',
+          month: '2-digit',
+          year: '2-digit',
+        }).format(new Date(item.date));
+
+        return {
+          ...item,
+          amount,
+          date,
+        };
       },
-      date: '12/03/2021',
-    },
-    {
-      id: '2',
-      type: 'outcome',
-      title: 'Prestação do apê',
-      amount: 'R$ 600,00',
-      category: {
-        name: 'Casa',
-        icon: 'home',
-      },
-      date: '15/03/2021',
-    },
-    {
-      id: '3',
-      type: 'income',
-      title: 'Salário',
-      amount: 'R$ 15.000,00',
-      category: {
-        name: 'Salário',
-        icon: 'dollar-sign',
-      },
-      date: '20/07/2021',
-    },
-  ];
+    );
+
+    setTransactions(formatedTransactions);
+  }
+
+  useEffect(() => {
+    loadTransactions();
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      loadTransactions();
+    }, []),
+  );
 
   return (
     <Container>
@@ -75,7 +86,7 @@ export function Dashboard(): JSX.Element {
               <UserName>Rennan</UserName>
             </User>
           </UserInfo>
-          <LogoutButton onPress={() => {}}>
+          <LogoutButton>
             <LogoutIcon name="power" />
           </LogoutButton>
         </UserWrapper>
@@ -106,7 +117,7 @@ export function Dashboard(): JSX.Element {
         <Title>Listagem</Title>
 
         <TransactionsList
-          data={data}
+          data={transactions}
           keyExtractor={item => item.id}
           renderItem={({ item: transaction }) => (
             <TransactionCard data={transaction} />
