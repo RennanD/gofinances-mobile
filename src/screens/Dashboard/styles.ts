@@ -105,3 +105,9 @@ export const TransactionsList = styled(
   },
   showsVerticalScrollIndicator: false,
 })``;
+
+export const LoadingContainer = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+`;
