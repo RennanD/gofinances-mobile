@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, View } from 'react-native';
+import { Platform } from 'react-native';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
@@ -9,6 +9,7 @@ import { useTheme } from 'styled-components';
 
 import { Dashboard } from '../screens/Dashboard';
 import { Register } from '../screens/Register';
+import { Resume } from '../screens/Resume';
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -53,7 +54,7 @@ export function AppRoutes(): JSX.Element {
       />
       <Screen
         name="Resume"
-        component={View}
+        component={Resume}
         options={{
           title: 'Resumo',
           tabBarIcon: ({ size, color }) => (

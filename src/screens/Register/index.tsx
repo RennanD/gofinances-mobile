@@ -18,14 +18,8 @@ import { TransactionTypeButton } from '../../components/Form/TransactionTypeButt
 
 import { CategorySelect, CategoryProps } from '../CategorySelect';
 
-import {
-  Container,
-  Header,
-  Title,
-  Form,
-  Fields,
-  TransactionType,
-} from './styles';
+import { Container, Form, Fields, TransactionType } from './styles';
+import { Header } from '../../components/Header';
 
 interface FormData {
   name: string;
@@ -119,9 +113,7 @@ export function Register(): JSX.Element {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <Container>
-        <Header>
-          <Title>Cadastro</Title>
-        </Header>
+        <Header title="Cadastrar" />
         <Form>
           <Fields>
             <InputText
