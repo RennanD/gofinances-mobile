@@ -1,4 +1,8 @@
+/* eslint-disable import/no-duplicates */
 import React, { useEffect, useState } from 'react';
+
+import { addMonths, subMonths, format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { VictoryPie } from 'victory-native';
@@ -10,7 +14,15 @@ import { Header } from '../../components/Header';
 import { HistoryCard } from '../../components/HistoryCard';
 import { DataLitsProps } from '../Dashboard';
 
-import { ChartContainer, Container, Content } from './styles';
+import {
+  ChartContainer,
+  Container,
+  Content,
+  MonthSelect,
+  MonthButton,
+  MonthIcon,
+  Month,
+} from './styles';
 
 import { categories } from '../../utils/categories';
 
@@ -26,10 +38,20 @@ interface CategoryResumeProps {
 }
 
 export function Resume(): JSX.Element {
+  const [selectedDate, setSelectedDate] = useState(new Date());
+
   const [categoriesResume, setCategoriesResume] =
     useState<CategoryResumeProps[]>();
 
   const theme = useTheme();
+
+  function handleDateChange(action: 'next' | 'prev') {
+    if (action === 'next') {
+      setSelectedDate(addMonths(selectedDate, 1));
+    } else {
+      setSelectedDate(subMonths(selectedDate, 1));
+    }
+  }
 
   async function loadTransactions() {
     const response = await AsyncStorage.getItem(dataKey);
@@ -37,7 +59,10 @@ export function Resume(): JSX.Element {
       ? JSON.parse(response)
       : [];
     const expensives = storegedTransactions.filter(
-      expensive => expensive.type === 'outcome',
+      expensive =>
+        expensive.type === 'outcome' &&
+        new Date(expensive.date).getMonth() === selectedDate.getMonth() &&
+        new Date(expensive.date).getFullYear() === selectedDate.getFullYear(),
     );
 
     const totalExpensives = expensives.reduce(
@@ -82,13 +107,25 @@ export function Resume(): JSX.Element {
 
   useEffect(() => {
     loadTransactions();
-  }, []);
+  }, [selectedDate]);
 
   return (
     <Container>
       <Header title="Resumo" />
 
       <Content>
+        <MonthSelect>
+          <MonthButton onPress={() => handleDateChange('prev')}>
+            <MonthIcon name="chevron-left" />
+          </MonthButton>
+
+          <Month>{format(selectedDate, 'MMMM, yyyy', { locale: ptBR })}</Month>
+
+          <MonthButton onPress={() => handleDateChange('next')}>
+            <MonthIcon name="chevron-right" />
+          </MonthButton>
+        </MonthSelect>
+
         <ChartContainer>
           <VictoryPie
             data={categoriesResume}
