@@ -132,5 +132,5 @@ npm run start
 
 
 <h1 align="center">
-  <img alt = "The app" src = "./.github/gofinances.gif" width = "700px" />
+  <img alt = "The app" src = "./.github/gofinances.gif" width = "400px" />
 </h1>
