@@ -1,5 +1,6 @@
 /* eslint-disable import/no-duplicates */
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { ActivityIndicator } from 'react-native';
 
 import { addMonths, subMonths, format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
@@ -10,6 +11,8 @@ import { VictoryPie } from 'victory-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 
 import { useTheme } from 'styled-components';
+
+import { useFocusEffect } from '@react-navigation/native';
 import { Header } from '../../components/Header';
 import { HistoryCard } from '../../components/HistoryCard';
 import { DataLitsProps } from '../Dashboard';
@@ -22,6 +25,7 @@ import {
   MonthButton,
   MonthIcon,
   Month,
+  LoadingContainer,
 } from './styles';
 
 import { categories } from '../../utils/categories';
@@ -38,8 +42,8 @@ interface CategoryResumeProps {
 }
 
 export function Resume(): JSX.Element {
+  const [loading, setLoading] = useState(true);
   const [selectedDate, setSelectedDate] = useState(new Date());
-
   const [categoriesResume, setCategoriesResume] =
     useState<CategoryResumeProps[]>();
 
@@ -54,6 +58,7 @@ export function Resume(): JSX.Element {
   }
 
   async function loadTransactions() {
+    setLoading(true);
     const response = await AsyncStorage.getItem(dataKey);
     const storegedTransactions: DataLitsProps[] = response
       ? JSON.parse(response)
@@ -103,55 +108,66 @@ export function Resume(): JSX.Element {
     });
 
     setCategoriesResume(totalByCategory);
+    setLoading(false);
   }
 
-  useEffect(() => {
-    loadTransactions();
-  }, [selectedDate]);
+  useFocusEffect(
+    useCallback(() => {
+      loadTransactions();
+    }, [selectedDate]),
+  );
 
   return (
     <Container>
       <Header title="Resumo" />
 
-      <Content>
-        <MonthSelect>
-          <MonthButton onPress={() => handleDateChange('prev')}>
-            <MonthIcon name="chevron-left" />
-          </MonthButton>
+      {loading ? (
+        <LoadingContainer>
+          <ActivityIndicator color={theme.colors.primary} size="large" />
+        </LoadingContainer>
+      ) : (
+        <Content>
+          <MonthSelect>
+            <MonthButton onPress={() => handleDateChange('prev')}>
+              <MonthIcon name="chevron-left" />
+            </MonthButton>
 
-          <Month>{format(selectedDate, 'MMMM, yyyy', { locale: ptBR })}</Month>
+            <Month>
+              {format(selectedDate, 'MMMM, yyyy', { locale: ptBR })}
+            </Month>
 
-          <MonthButton onPress={() => handleDateChange('next')}>
-            <MonthIcon name="chevron-right" />
-          </MonthButton>
-        </MonthSelect>
+            <MonthButton onPress={() => handleDateChange('next')}>
+              <MonthIcon name="chevron-right" />
+            </MonthButton>
+          </MonthSelect>
 
-        <ChartContainer>
-          <VictoryPie
-            data={categoriesResume}
-            colorScale={categoriesResume?.map(category => category.color)}
-            style={{
-              labels: {
-                fontSize: RFValue(18),
-                fontWeight: 'bold',
-                fill: theme.colors.shape,
-              },
-            }}
-            labelRadius={60}
-            x="percentFormatted"
-            y="amount"
-          />
-        </ChartContainer>
+          <ChartContainer>
+            <VictoryPie
+              data={categoriesResume}
+              colorScale={categoriesResume?.map(category => category.color)}
+              style={{
+                labels: {
+                  fontSize: RFValue(18),
+                  fontWeight: 'bold',
+                  fill: theme.colors.shape,
+                },
+              }}
+              labelRadius={60}
+              x="percentFormatted"
+              y="amount"
+            />
+          </ChartContainer>
 
-        {categoriesResume?.map(category => (
-          <HistoryCard
-            key={category.name}
-            title={category.name}
-            amount={category.amountFormatted}
-            color={category.color}
-          />
-        ))}
-      </Content>
+          {categoriesResume?.map(category => (
+            <HistoryCard
+              key={category.name}
+              title={category.name}
+              amount={category.amountFormatted}
+              color={category.color}
+            />
+          ))}
+        </Content>
+      )}
     </Container>
   );
 }

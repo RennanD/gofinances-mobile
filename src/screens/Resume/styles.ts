@@ -47,3 +47,9 @@ export const Month = styled.Text`
     color: ${theme.colors.title};
   `}
 `;
+
+export const LoadingContainer = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+`;
