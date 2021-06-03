@@ -23,6 +23,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import theme from './src/global/styles/theme';
 import { AppRoutes } from './src/routes/app.routes';
 import { Login } from './src/screens/Login';
+import { AuthProvider } from './src/hooks';
 
 export default function App(): JSX.Element {
   const [fontsLoaded] = useFonts({
@@ -43,7 +44,9 @@ export default function App(): JSX.Element {
           backgroundColor="transparent"
           barStyle="light-content"
         />
-        <Login />
+        <AuthProvider>
+          <Login />
+        </AuthProvider>
       </NavigationContainer>
     </ThemeProvider>
   );
