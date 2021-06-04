@@ -1,6 +1,8 @@
 import React from 'react';
+import { Alert } from 'react-native';
 
 import { RFValue } from 'react-native-responsive-fontsize';
+
 import {
   Container,
   Header,
@@ -11,12 +13,25 @@ import {
   LoginButtonContainer,
 } from './styles';
 
+import { SocialLoginButton } from '../../components/SocialLoginButton';
+
+import { useAuth } from '../../hooks/auth';
+
 import AppleIcon from '../../assets/apple.svg';
 import GoogleIcon from '../../assets/google.svg';
 import Logo from '../../assets/logo.svg';
-import { SocialLoginButton } from '../../components/SocialLoginButton';
 
 export function Login(): JSX.Element {
+  const { signInWithGoogle } = useAuth();
+
+  async function handleLogin() {
+    try {
+      await signInWithGoogle();
+    } catch (error) {
+      Alert.alert('Erro', 'Não foi possível se conectar com a conta Google');
+    }
+  }
+
   return (
     <Container>
       <Header>
@@ -33,7 +48,11 @@ export function Login(): JSX.Element {
 
       <Footer>
         <LoginButtonContainer>
-          <SocialLoginButton icon={GoogleIcon} title="Entrar com Google" />
+          <SocialLoginButton
+            onPress={handleLogin}
+            icon={GoogleIcon}
+            title="Entrar com Google"
+          />
           <SocialLoginButton icon={AppleIcon} title="Entrar com Apple" />
         </LoginButtonContainer>
       </Footer>
