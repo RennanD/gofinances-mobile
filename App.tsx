@@ -16,14 +16,10 @@ import {
 
 import { ThemeProvider } from 'styled-components';
 
-import { NavigationContainer } from '@react-navigation/native';
-
-// import { Dashboard } from './src/screens/Dashboard';
-
 import theme from './src/global/styles/theme';
-import { AppRoutes } from './src/routes/app.routes';
-import { Login } from './src/screens/Login';
+
 import { AuthProvider } from './src/hooks/auth';
+import { Routes } from './src/routes';
 
 export default function App(): JSX.Element {
   const [fontsLoaded] = useFonts({
@@ -38,16 +34,14 @@ export default function App(): JSX.Element {
 
   return (
     <ThemeProvider theme={theme}>
-      <NavigationContainer>
-        <StatusBar
-          translucent
-          backgroundColor="transparent"
-          barStyle="light-content"
-        />
-        <AuthProvider>
-          <Login />
-        </AuthProvider>
-      </NavigationContainer>
+      <StatusBar
+        translucent
+        backgroundColor="transparent"
+        barStyle="light-content"
+      />
+      <AuthProvider>
+        <Routes />
+      </AuthProvider>
     </ThemeProvider>
   );
 }

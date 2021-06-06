@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
 import * as GoogleAuth from 'expo-google-app-auth';
 import * as AppleAuth from 'expo-apple-authentication';
@@ -13,6 +13,7 @@ interface User {
 
 interface AuthContextData {
   user: User;
+  userStoragedLoading: boolean;
   signInWithGoogle: () => Promise<void>;
   signInWithApple: () => Promise<void>;
 }
@@ -25,6 +26,18 @@ const AuthContext = createContext({} as AuthContextData);
 
 export function AuthProvider({ children }: AuthProviderProps): JSX.Element {
   const [user, setUser] = useState({} as User);
+  const [userStoragedLoading, setUserStoragedLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadLoggedUser() {
+      const response = await AsyncStorage.getItem('@gofinances:user');
+      const loggedUser = response ? JSON.parse(response) : ({} as User);
+
+      setUser(loggedUser);
+      setUserStoragedLoading(false);
+    }
+    loadLoggedUser();
+  }, []);
 
   async function handleSignInWithGoogle() {
     try {
@@ -89,6 +102,7 @@ export function AuthProvider({ children }: AuthProviderProps): JSX.Element {
     <AuthContext.Provider
       value={{
         user,
+        userStoragedLoading,
         signInWithGoogle: handleSignInWithGoogle,
         signInWithApple: handleSignInWithApple,
       }}
