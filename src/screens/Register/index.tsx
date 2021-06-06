@@ -11,15 +11,17 @@ import uuid from 'react-native-uuid';
 import { useNavigation } from '@react-navigation/native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import { Container, Form, Fields, TransactionType } from './styles';
+
 import { Button } from '../../components/Form/Button';
 import { InputText } from '../../components/Form/InputText';
 import { SelectInput } from '../../components/Form/SelectInput';
 import { TransactionTypeButton } from '../../components/Form/TransactionTypeButton';
-
 import { CategorySelect, CategoryProps } from '../CategorySelect';
-
-import { Container, Form, Fields, TransactionType } from './styles';
 import { Header } from '../../components/Header';
+
+import { useAuth } from '../../hooks/auth';
 
 interface FormData {
   name: string;
@@ -34,8 +36,6 @@ const schema = Yup.object().shape({
     .required('Valor obrigatório'),
 });
 
-const dataKey = '@gofinances:transactions';
-
 export function Register(): JSX.Element {
   const [selectedTransactionType, setSelectedTransactionType] = useState('');
   const [category, setCategory] = useState<CategoryProps>({
@@ -43,6 +43,10 @@ export function Register(): JSX.Element {
     name: 'Selecione a categoria',
   });
   const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const { user } = useAuth();
+
+  const dataKey = `@gofinances:transactions_user:${user.name}`;
 
   const {
     control,

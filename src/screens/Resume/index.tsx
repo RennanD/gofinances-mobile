@@ -1,5 +1,5 @@
 /* eslint-disable import/no-duplicates */
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { ActivityIndicator } from 'react-native';
 
 import { addMonths, subMonths, format } from 'date-fns';
@@ -13,9 +13,6 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import { useTheme } from 'styled-components';
 
 import { useFocusEffect } from '@react-navigation/native';
-import { Header } from '../../components/Header';
-import { HistoryCard } from '../../components/HistoryCard';
-import { DataLitsProps } from '../Dashboard';
 
 import {
   ChartContainer,
@@ -28,9 +25,13 @@ import {
   LoadingContainer,
 } from './styles';
 
+import { Header } from '../../components/Header';
+import { HistoryCard } from '../../components/HistoryCard';
+import { DataLitsProps } from '../Dashboard';
+
 import { categories } from '../../utils/categories';
 
-const dataKey = '@gofinances:transactions';
+import { useAuth } from '../../hooks/auth';
 
 interface CategoryResumeProps {
   name: string;
@@ -48,6 +49,9 @@ export function Resume(): JSX.Element {
     useState<CategoryResumeProps[]>();
 
   const theme = useTheme();
+  const { user } = useAuth();
+
+  const dataKey = `@gofinances:transactions_user:${user.name}`;
 
   function handleDateChange(action: 'next' | 'prev') {
     if (action === 'next') {

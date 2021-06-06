@@ -48,8 +48,6 @@ interface HighlightData {
   total: HighlightProps;
 }
 
-const dataKey = '@gofinances:transactions';
-
 export function Dashboard(): JSX.Element {
   const [transactions, setTransactions] = useState<DataLitsProps[]>([]);
   const [highlightData, setHiglightData] = useState<HighlightData>(
@@ -59,6 +57,8 @@ export function Dashboard(): JSX.Element {
 
   const theme = useTheme();
   const { signOut, user } = useAuth();
+
+  const dataKey = `@gofinances:transactions_user:${user.name}`;
 
   async function loadTransactions() {
     const getTransactionDate = (
