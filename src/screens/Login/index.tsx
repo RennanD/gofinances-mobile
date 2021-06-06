@@ -22,13 +22,21 @@ import GoogleIcon from '../../assets/google.svg';
 import Logo from '../../assets/logo.svg';
 
 export function Login(): JSX.Element {
-  const { signInWithGoogle } = useAuth();
+  const { signInWithGoogle, signInWithApple } = useAuth();
 
-  async function handleLogin() {
+  async function handleLoginWithGoogle() {
     try {
       await signInWithGoogle();
     } catch (error) {
       Alert.alert('Erro', 'Não foi possível se conectar com a conta Google');
+    }
+  }
+
+  async function handleLoginWithApple() {
+    try {
+      await signInWithApple();
+    } catch (error) {
+      Alert.alert('Erro', 'Não foi possível se conectar com a conta Apple');
     }
   }
 
@@ -49,11 +57,15 @@ export function Login(): JSX.Element {
       <Footer>
         <LoginButtonContainer>
           <SocialLoginButton
-            onPress={handleLogin}
+            onPress={handleLoginWithGoogle}
             icon={GoogleIcon}
             title="Entrar com Google"
           />
-          <SocialLoginButton icon={AppleIcon} title="Entrar com Apple" />
+          <SocialLoginButton
+            onPress={handleLoginWithApple}
+            icon={AppleIcon}
+            title="Entrar com Apple"
+          />
         </LoginButtonContainer>
       </Footer>
     </Container>
