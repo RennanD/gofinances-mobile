@@ -1,7 +1,9 @@
-import React from 'react';
-import { Alert } from 'react-native';
+import React, { useState } from 'react';
+import { ActivityIndicator, Alert } from 'react-native';
 
 import { RFValue } from 'react-native-responsive-fontsize';
+
+import { useTheme } from 'styled-components';
 
 import {
   Container,
@@ -22,21 +24,28 @@ import GoogleIcon from '../../assets/google.svg';
 import Logo from '../../assets/logo.svg';
 
 export function Login(): JSX.Element {
+  const [isConnecting, setIsConnecting] = useState(false);
+
   const { signInWithGoogle, signInWithApple } = useAuth();
+  const theme = useTheme();
 
   async function handleLoginWithGoogle() {
+    setIsConnecting(true);
     try {
       await signInWithGoogle();
     } catch (error) {
       Alert.alert('Erro', 'Não foi possível se conectar com a conta Google');
+      setIsConnecting(false);
     }
   }
 
   async function handleLoginWithApple() {
+    setIsConnecting(true);
     try {
       await signInWithApple();
     } catch (error) {
       Alert.alert('Erro', 'Não foi possível se conectar com a conta Apple');
+      setIsConnecting(false);
     }
   }
 
@@ -67,6 +76,13 @@ export function Login(): JSX.Element {
             title="Entrar com Apple"
           />
         </LoginButtonContainer>
+
+        {isConnecting && (
+          <ActivityIndicator
+            color={theme.colors.shape}
+            style={{ marginTop: 18 }}
+          />
+        )}
       </Footer>
     </Container>
   );
