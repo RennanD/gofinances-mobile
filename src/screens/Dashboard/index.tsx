@@ -31,6 +31,8 @@ import {
   LoadingContainer,
 } from './styles';
 
+import { useAuth } from '../../hooks/auth';
+
 export interface DataLitsProps extends TransactionCardData {
   id: string;
 }
@@ -56,6 +58,7 @@ export function Dashboard(): JSX.Element {
   const [loading, setLoading] = useState(true);
 
   const theme = useTheme();
+  const { signOut, user } = useAuth();
 
   async function loadTransactions() {
     const getTransactionDate = (
@@ -175,14 +178,14 @@ export function Dashboard(): JSX.Element {
       <Header>
         <UserWrapper>
           <UserInfo>
-            <Photo source={{ uri: 'https://github.com/rennand.png' }} />
+            <Photo source={{ uri: user.photo }} />
 
             <User>
               <UserGretting>Olá,</UserGretting>
-              <UserName>Rennan</UserName>
+              <UserName>{user.name}</UserName>
             </User>
           </UserInfo>
-          <LogoutButton>
+          <LogoutButton onPress={signOut}>
             <LogoutIcon name="power" />
           </LogoutButton>
         </UserWrapper>

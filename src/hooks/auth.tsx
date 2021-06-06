@@ -16,6 +16,7 @@ interface AuthContextData {
   userStoragedLoading: boolean;
   signInWithGoogle: () => Promise<void>;
   signInWithApple: () => Promise<void>;
+  signOut: () => Promise<void>;
 }
 
 interface AuthProviderProps {
@@ -27,17 +28,6 @@ const AuthContext = createContext({} as AuthContextData);
 export function AuthProvider({ children }: AuthProviderProps): JSX.Element {
   const [user, setUser] = useState({} as User);
   const [userStoragedLoading, setUserStoragedLoading] = useState(true);
-
-  useEffect(() => {
-    async function loadLoggedUser() {
-      const response = await AsyncStorage.getItem('@gofinances:user');
-      const loggedUser = response ? JSON.parse(response) : ({} as User);
-
-      setUser(loggedUser);
-      setUserStoragedLoading(false);
-    }
-    loadLoggedUser();
-  }, []);
 
   async function handleSignInWithGoogle() {
     try {
@@ -79,11 +69,14 @@ export function AuthProvider({ children }: AuthProviderProps): JSX.Element {
       });
 
       if (credential) {
+        const name = credential.fullName!.givenName!;
+        const photo = `https://ui-avatars.com/api/?name=${name}?length=1`;
+
         const userLogged = {
           id: String(credential.user),
           email: credential.email!,
-          name: credential.fullName!.givenName!,
-          photo: undefined,
+          name,
+          photo,
         };
 
         await AsyncStorage.setItem(
@@ -98,6 +91,22 @@ export function AuthProvider({ children }: AuthProviderProps): JSX.Element {
     }
   }
 
+  async function handleSignOut() {
+    setUser({} as User);
+    await AsyncStorage.removeItem('@gofinances:user');
+  }
+
+  useEffect(() => {
+    async function loadLoggedUser() {
+      const response = await AsyncStorage.getItem('@gofinances:user');
+      const loggedUser = response ? JSON.parse(response) : ({} as User);
+
+      setUser(loggedUser);
+      setUserStoragedLoading(false);
+    }
+    loadLoggedUser();
+  }, []);
+
   return (
     <AuthContext.Provider
       value={{
@@ -105,6 +114,7 @@ export function AuthProvider({ children }: AuthProviderProps): JSX.Element {
         userStoragedLoading,
         signInWithGoogle: handleSignInWithGoogle,
         signInWithApple: handleSignInWithApple,
+        signOut: handleSignOut,
       }}
     >
       {children}
