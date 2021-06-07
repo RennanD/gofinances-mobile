@@ -4,9 +4,17 @@
   "expo": {
     "name": "gofinances",
     "slug": "gofinances",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png"
+    },
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "android": {
+      "package": "com.rennand.gofinances",
+      "versionCode": 1
+    }
   }
 }

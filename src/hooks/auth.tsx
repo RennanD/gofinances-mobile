@@ -37,6 +37,8 @@ export function AuthProvider({ children }: AuthProviderProps): JSX.Element {
         androidClientId:
           '368450672599-suiorhlefqjtp1fpr28q564s83sdokpq.apps.googleusercontent.com',
         scopes: ['profile', 'email'],
+        behavior: 'web',
+        androidStandaloneAppClientId: 'AIzaSyA_Is0l7D4sGrn-oa2LIVr1cuBCxO4An3g',
       });
 
       if (response.type === 'success') {

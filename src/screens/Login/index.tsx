@@ -34,7 +34,7 @@ export function Login(): JSX.Element {
     try {
       await signInWithGoogle();
     } catch (error) {
-      Alert.alert('Erro', 'Não foi possível se conectar com a conta Google');
+      Alert.alert('Erro', JSON.stringify(error));
       setIsConnecting(false);
     }
   }

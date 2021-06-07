@@ -65,12 +65,20 @@ export function Dashboard(): JSX.Element {
       collection: DataLitsProps[],
       type: 'income' | 'outcome',
     ) => {
+      const filteredCollection = collection.filter(
+        transaction => transaction.type === type,
+      );
+
+      if (!filteredCollection.length) {
+        return '0';
+      }
+
       const lastransaction = new Date(
         Math.max.apply(
           Math,
-          collection
-            .filter(transaction => transaction.type === type)
-            .map(transaction => new Date(transaction.date).getTime()),
+          filteredCollection.map(transaction =>
+            new Date(transaction.date).getTime(),
+          ),
         ),
       );
 
@@ -196,19 +204,31 @@ export function Dashboard(): JSX.Element {
           type="income"
           title="Entradas"
           amount={highlightData.entries.amount}
-          lastTransaction={`Última entrada dia ${highlightData.entries.lastTransaction}`}
+          lastTransaction={
+            highlightData.entries.lastTransaction === '0'
+              ? 'Ainda não existem entradas'
+              : `Última entrada dia ${highlightData.entries.lastTransaction}`
+          }
         />
         <HighlightCard
           type="outcome"
           title="Saídas"
           amount={highlightData.expensives.amount}
-          lastTransaction={`Última saída dia ${highlightData.expensives.lastTransaction}`}
+          lastTransaction={
+            highlightData.expensives.lastTransaction === '0'
+              ? 'Ainda não existem saídas'
+              : `Última saída dia ${highlightData.expensives.lastTransaction}`
+          }
         />
         <HighlightCard
           type="total"
           title="Total"
           amount={highlightData.total.amount}
-          lastTransaction={highlightData.total.lastTransaction}
+          lastTransaction={
+            highlightData.total.lastTransaction === '0'
+              ? 'Ainda não há movimentações'
+              : highlightData.total.lastTransaction
+          }
         />
       </HighlightCards>
 
