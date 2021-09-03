@@ -4,6 +4,7 @@
   "expo": {
     "name": "gofinances",
     "slug": "gofinances",
+    "scheme": "scheme",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png"
