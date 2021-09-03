@@ -32,6 +32,10 @@ SDK's, following the documentation
 
 - [React Native Environment](https://react-native.rocketseat.dev/)
 
+# 🔧 Environment configuration
+
+We need to configure our credentianls on [Google Cloud](https://console.developers.google.com/apis/credentials), then create a `.env` file on root based on `.env.example` file, filling in the values with our credentials.
+
 ## 💻 Mobile Application
 
 <h1 align="center">
